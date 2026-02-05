@@ -10,13 +10,19 @@ const taskRoutes = require("./src/routes/taskRoutes");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",      
+  process.env.CLIENT_URL,      
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:3001"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -32,5 +38,5 @@ app.use("/api/projects", projectRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on port http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
